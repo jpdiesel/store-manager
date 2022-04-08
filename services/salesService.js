@@ -1,4 +1,4 @@
-const { getAllSales, getSalesById } = require('../models/sales');
+const { getAllSales, getSalesById, createNewSale, createSaleProduct } = require('../models/sales');
 
 const listAllSales = async () => {
   const sales = await getAllSales();
@@ -11,7 +11,18 @@ const listSalesById = async (id) => {
   return sale;
 };
 
+const createSale = async (sales) => {
+  const [sale] = await createNewSale();
+
+  sales.map(async ({ productId, quantity }) => {
+    await createSaleProduct(sale, productId, quantity);
+  });
+
+  return { id: sale.insertId, itensSold: [...sales] };
+};
+
 module.exports = {
   listAllSales,
   listSalesById,
+  createSale,
 };

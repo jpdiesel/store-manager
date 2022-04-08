@@ -1,4 +1,5 @@
 const { getAllSales, getSalesById } = require('../models/sales');
+const { createSale } = require('../services/salesService');
 
 const listAllSales = async (_req, res) => {
   try {
@@ -22,4 +23,13 @@ const listSalesById = async (req, res) => {
   }
 };
 
-module.exports = { listAllSales, listSalesById };
+const createSalesController = async (req, res) => {
+  try {
+    const result = await createSale(req.body);
+    return res.status(201).json(result);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+module.exports = { listAllSales, listSalesById, createSalesController };
