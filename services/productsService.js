@@ -20,7 +20,7 @@ const listProductById = async (id) => {
 
 const createProduct = async (name, quantity) => {
   const productExistence = await verifyProductExistence(name);
-  if (productExistence) return null;
+  if (productExistence.length >= 1) return null;
   const product = await createNewProduct(name, quantity);
   return product;
 };

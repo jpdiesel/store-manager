@@ -2,6 +2,7 @@ const frisby = require("frisby");
 const mysql = require("mysql2/promise");
 const Importer = require("mysql-import");
 require("dotenv").config();
+jest.setTimeout(60000);
 
 describe("06-deleteProduct", () => {
   const url = `http://localhost:${process.env.PORT}`;
@@ -43,7 +44,7 @@ describe("06-deleteProduct", () => {
         .get(`${url}/products/3`)
         .then((response) => {
           const { json } = response;
-  
+
           expect(Object.keys(json)).toContain("message");
           expect(json.message).toEqual("Product not found");
         });
@@ -51,14 +52,14 @@ describe("06-deleteProduct", () => {
 
     it("Será validado que não é possível deletar um produto que não existe", async () => {
       await frisby
-      .delete(`${url}/products/${INVALID_ID}`)
-      .expect("status", 404)
-      .then((response) => {
-        const { json } = response;
+        .delete(`${url}/products/${INVALID_ID}`)
+        .expect("status", 404)
+        .then((response) => {
+          const { json } = response;
 
-        expect(Object.keys(json)).toContain("message");
-        expect(json.message).toEqual("Product not found");
-      });
+          expect(Object.keys(json)).toContain("message");
+          expect(json.message).toEqual("Product not found");
+        });
     });
   });
 });

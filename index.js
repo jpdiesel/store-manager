@@ -5,7 +5,6 @@ const express = require('express');
 
 const app = express();
 
-app.use(express.json());
 app.use(bodyParser.json());
 
 // não remova esse endpoint, e para o avaliador funcionar

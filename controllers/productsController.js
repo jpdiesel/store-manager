@@ -24,7 +24,7 @@ const getProductById = async (req, res) => {
     return res.status(200).json(data);
   } catch (e) {
     console.log(e);
-    return res.status(500).end;
+    return res.status(500).end();
   }
 };
 
@@ -33,10 +33,15 @@ const createProductController = async (req, res) => {
     const { name, quantity } = req.body;
     const result = await createProduct(name, quantity);
     if (!result) return res.status(409).json({ message: 'Product already exists' });
-    return res.status(201).json(result);
+    const jsonResult = {
+      id: result.insertId,
+      name,
+      quantity,
+    };
+    return res.status(201).json(jsonResult);
   } catch (e) {
     console.log(e);
-    return res.status(500).end;
+    return res.status(500).end();
   }
 };
 
@@ -49,7 +54,7 @@ const updateProductController = async (req, res) => {
     return res.status(200).json({ name, quantity, id });
   } catch (e) {
     console.log(e);
-    return res.status(500).end;
+    return res.status(500).end();
   }
 };
 
@@ -58,10 +63,10 @@ const deleteProductController = async (req, res) => {
     const { id } = req.params;
     const result = await delProduct(id);
     if (!result) return res.status(404).json({ message: 'Product not found' });
-    return res.status(204).end;
+    return res.status(204).end();
   } catch (e) {
     console.log(e);
-    return res.status(500).end;
+    return res.status(500).end();
   }
 };
 

@@ -18,13 +18,12 @@ const listSalesById = async (id) => {
 };
 
 const createSale = async (sales) => {
-  const [sale] = await createNewSale();
-
+  const sale = await createNewSale();
   sales.map(async ({ productId, quantity }) => {
-    await createSaleProduct(sale, productId, quantity);
+    await createSaleProduct(sale.insertId, productId, quantity);
   });
 
-  return { id: sale.insertId, itensSold: [...sales] };
+  return { id: sale.insertId, itemsSold: [...sales] };
 };
 
 const update = async (id, productId, quantity) => {

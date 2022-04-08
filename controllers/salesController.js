@@ -16,6 +16,7 @@ const listSalesById = async (req, res) => {
     const { id } = req.params;
     const data = await getSalesById(id);
     if (!data) return res.status(404).json({ message: 'Sale not found' });
+    console.log(data);
     res.status(200).json(data);
   } catch (e) {
     console.log(e);
@@ -25,6 +26,7 @@ const listSalesById = async (req, res) => {
 
 const createSalesController = async (req, res) => {
   try {
+    console.log('errou');
     const result = await createSale(req.body);
     return res.status(201).json(result);
   } catch (e) {
@@ -35,7 +37,7 @@ const createSalesController = async (req, res) => {
 const editSaleController = async (req, res) => {
   try {
     const { id } = req.params;
-    const { productId, quantity } = req.body;
+    const { productId, quantity } = req.body[0];
     const result = await update(id, productId, quantity);
     return res.status(200).json(result);
   } catch (e) {

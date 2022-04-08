@@ -1,10 +1,10 @@
-const connection = require('./connection');
+const { connection } = require('./connection');
 
 const getAllSales = async () => {
   const query = `
-  SELECT s.id, s.date, sp.product_id, sp.quantity 
+  SELECT s.id AS saleId, s.date, sp.product_id AS productId, sp.quantity 
   FROM StoreManager.sales AS s 
-  JOIN StoreManager.product_sales AS sp ON sp.sale_id = s.id;
+  JOIN StoreManager.sales_products AS sp ON sp.sale_id = s.id;
   `;
   const [sales] = await connection
     .execute(query);
@@ -15,15 +15,15 @@ const getAllSales = async () => {
 const getSalesById = async (id) => {
   const [salesData] = await connection
     .execute(`
-    SELECT s.id, s.date, sp.product_id, sp.quantity 
+    SELECT s.date, sp.product_id AS productId, sp.quantity 
     FROM StoreManager.sales AS s 
-    JOIN StoreManager.product_sales AS sp ON sp.sale_id = s.id
-    WHERE s.id = ?
-    ORDER BY s.id ASC;`, [id]);
+    JOIN StoreManager.sales_products AS sp ON sp.sale_id = s.id
+    WHERE sp.sale_id = ?
+    ORDER BY s.id, sp.product_id; `, [id]);
 
   if (salesData.length === 0) return null;
 
-  return salesData[0];
+  return salesData;
 };
 
 const createNewSale = async () => {
@@ -45,12 +45,10 @@ const createSaleProduct = async (saleId, productId, quantity) => {
 };
 
 const updateSale = async (saleId, productId, quantity) => {
-  const [sale] = await connection.execute(
+  await connection.execute(
     'UPDATE sales_products SET quantity = ?, product_id = ? WHERE sale_id = ?;',
-    [quantity, saleId, productId],
+    [quantity, productId, saleId],
   );
-
-  return sale;
 };
 
 module.exports = { getAllSales, getSalesById, createNewSale, createSaleProduct, updateSale };
