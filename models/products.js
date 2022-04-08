@@ -27,10 +27,24 @@ const createNewProduct = async (name, quantity) => {
 
 const verifyProductExistence = async (name) => {
   const [product] = await connection.execute(`
-  'SELECT * FROM StoreManager.products WHERE name = ?;'
+  SELECT * FROM StoreManager.products WHERE name = ?;
   `, [name]);
 
   return product;
 };
 
-module.exports = { getAllProducts, getProductById, createNewProduct, verifyProductExistence };
+const updateProduct = async (name, quantity, id) => {
+  const [product] = await connection.execute(`
+  UPDATE products SET name = ?, quantity = ? WHERE id = ?;`,
+  [name, quantity, id]);
+
+  return product;
+};
+
+module.exports = {
+  getAllProducts,
+  getProductById,
+  createNewProduct,
+  verifyProductExistence,
+  updateProduct,
+};

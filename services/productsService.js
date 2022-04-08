@@ -3,6 +3,7 @@ const {
   getProductById,
   createNewProduct,
   verifyProductExistence,
+  updateProduct,
 } = require('../models/products');
 
 const listAllProducts = async () => {
@@ -23,8 +24,16 @@ const createProduct = async (name, quantity) => {
   return product;
 };
 
+const attProduct = async (name, quantity, id) => {
+  const productValid = await getProductById(id);
+  if (!productValid) return null;
+  const product = await updateProduct(name, quantity, id);
+  return product;
+};
+
 module.exports = {
   listAllProducts,
   listProductById,
   createProduct,
+  attProduct,
 };

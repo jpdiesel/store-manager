@@ -2,6 +2,7 @@ const {
   listAllProducts,
   listProductById,
   createProduct,
+  attProduct,
 } = require('../services/productsService');
 
 const getAllProducts = async (_req, res) => {
@@ -38,4 +39,20 @@ const createProductController = async (req, res) => {
   }
 };
 
-module.exports = { getAllProducts, getProductById, createProductController };
+const updateProductController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    await attProduct(name, quantity, id);
+    res.status(200).json({ name, quantity, id });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+module.exports = {
+  getAllProducts,
+  getProductById,
+  createProductController,
+  updateProductController,
+};
