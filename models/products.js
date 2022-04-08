@@ -16,8 +16,21 @@ const getProductById = async (id) => {
   return productsData[0];
 };
 
-// const createNewProduct = async () => {
+const createNewProduct = async (name, quantity) => {
+  const [product] = await connection.execute(`
+  INSERT INTO StoreManager.products (name, quantity)
+  VALUES (?, ?);`,
+  [name, quantity]);
 
-// };
+  return product;
+};
 
-module.exports = { getAllProducts, getProductById };
+const verifyProductExistence = async (name) => {
+  const [product] = await connection.execute(`
+  'SELECT * FROM StoreManager.products WHERE name = ?;'
+  `, [name]);
+
+  return product;
+};
+
+module.exports = { getAllProducts, getProductById, createNewProduct, verifyProductExistence };
