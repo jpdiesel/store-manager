@@ -3,6 +3,7 @@ const {
   listProductById,
   createProduct,
   attProduct,
+  delProduct,
 } = require('../services/productsService');
 
 const getAllProducts = async (_req, res) => {
@@ -43,10 +44,24 @@ const updateProductController = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, quantity } = req.body;
-    await attProduct(name, quantity, id);
-    res.status(200).json({ name, quantity, id });
+    const result = await attProduct(name, quantity, id);
+    if (!result) return res.status(404).json({ message: 'Product not found' });
+    return res.status(200).json({ name, quantity, id });
   } catch (e) {
     console.log(e);
+    return res.status(500).end;
+  }
+};
+
+const deleteProductController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await delProduct(id);
+    if (!result) return res.status(404).json({ message: 'Product not found' });
+    return res.status(204).end;
+  } catch (e) {
+    console.log(e);
+    return res.status(500).end;
   }
 };
 
@@ -55,4 +70,5 @@ module.exports = {
   getProductById,
   createProductController,
   updateProductController,
+  deleteProductController,
 };
