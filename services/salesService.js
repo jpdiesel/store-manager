@@ -1,4 +1,10 @@
-const { getAllSales, getSalesById, createNewSale, createSaleProduct } = require('../models/sales');
+const {
+  getAllSales,
+  getSalesById,
+  createNewSale,
+  createSaleProduct,
+  updateSale,
+} = require('../models/sales');
 
 const listAllSales = async () => {
   const sales = await getAllSales();
@@ -21,8 +27,15 @@ const createSale = async (sales) => {
   return { id: sale.insertId, itensSold: [...sales] };
 };
 
+const update = async (id, productId, quantity) => {
+  await updateSale(id, productId, quantity);
+
+  return { saleId: id, itemUpdated: [{ productId, quantity }] };
+};
+
 module.exports = {
   listAllSales,
   listSalesById,
   createSale,
+  update,
 };

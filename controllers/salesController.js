@@ -1,5 +1,5 @@
 const { getAllSales, getSalesById } = require('../models/sales');
-const { createSale } = require('../services/salesService');
+const { createSale, update } = require('../services/salesService');
 
 const listAllSales = async (_req, res) => {
   try {
@@ -32,4 +32,15 @@ const createSalesController = async (req, res) => {
   }
 };
 
-module.exports = { listAllSales, listSalesById, createSalesController };
+const editSaleController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { productId, quantity } = req.body;
+    const result = await update(id, productId, quantity);
+    return res.status(200).json(result);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+module.exports = { listAllSales, listSalesById, createSalesController, editSaleController };
