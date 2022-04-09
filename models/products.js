@@ -35,7 +35,7 @@ const verifyProductExistence = async (name) => {
 
 const updateProduct = async (name, quantity, id) => {
   const [product] = await connection.execute(`
-  UPDATE products SET name = ?, quantity = ? WHERE id = ?;`,
+  UPDATE StoreManager.products SET name = ?, quantity = ? WHERE id = ?;`,
   [name, quantity, id]);
 
   return product;
