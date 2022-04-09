@@ -2,7 +2,7 @@ const frisby = require("frisby");
 const mysql = require("mysql2/promise");
 const Importer = require("mysql-import");
 require("dotenv").config();
-jest.setTimeout(30000);
+// jest.setTimeout(30000);
 
 describe("07-registerSales", () => {
   const url = `http://localhost:${process.env.PORT}`;

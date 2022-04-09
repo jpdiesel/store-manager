@@ -2,6 +2,7 @@ const frisby = require("frisby");
 const mysql = require("mysql2/promise");
 const Importer = require("mysql-import");
 require("dotenv").config();
+// jest.setTimeout(30000);
 
 describe("08-updateSales", () => {
   const url = `http://localhost:${process.env.PORT}`;
@@ -60,17 +61,17 @@ describe("08-updateSales", () => {
           expect(json.itemUpdated[0].quantity).toBe(14);
         });
 
-        await frisby
-          .get(`${url}/sales/2`)
-          .expect("status", 200)
-          .then((response) => {
-            const { json } = response;
-  
-            expect(json.length).toBe(1);
-  
-            expect(json[0].productId).toBe(3);
-            expect(json[0].quantity).toBe(14);
-          });
+      await frisby
+        .get(`${url}/sales/2`)
+        .expect("status", 200)
+        .then((response) => {
+          const { json } = response;
+
+          expect(json.length).toBe(1);
+
+          expect(json[0].productId).toBe(3);
+          expect(json[0].quantity).toBe(14);
+        });
     });
   });
 })
