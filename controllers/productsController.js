@@ -12,7 +12,6 @@ const getAllProducts = async (_req, res) => {
     res.status(200).json(data);
   } catch (e) {
     console.log(e);
-    return res.status(500).end();
   }
 };
 
@@ -24,7 +23,6 @@ const getProductById = async (req, res) => {
     return res.status(200).json(data);
   } catch (e) {
     console.log(e);
-    return res.status(500).end();
   }
 };
 
@@ -41,7 +39,6 @@ const createProductController = async (req, res) => {
     return res.status(201).json(jsonResult);
   } catch (e) {
     console.log(e);
-    return res.status(500).end();
   }
 };
 
@@ -54,7 +51,6 @@ const updateProductController = async (req, res) => {
     return res.status(200).json({ name, quantity, id });
   } catch (e) {
     console.log(e);
-    return res.status(500).end();
   }
 };
 
@@ -66,7 +62,6 @@ const deleteProductController = async (req, res) => {
     return res.status(204).end();
   } catch (e) {
     console.log(e);
-    return res.status(500).end();
   }
 };
 

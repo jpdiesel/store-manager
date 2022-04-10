@@ -19,11 +19,11 @@ const listSalesById = async (id) => {
 
 const createSale = async (sales) => {
   const sale = await createNewSale();
-  sales.map(async ({ productId, quantity }) => {
-    await createSaleProduct(sale.insertId, productId, quantity);
-  });
-
-  return { id: sale.insertId, itemsSold: [...sales] };
+  await Promise.all(sales.map(async (param) => {
+    await createSaleProduct(sale.insertId, param.productId, param.quantity);
+  }));
+ 
+  return { id: sale.insertId, itemsSold: sales };
 };
 
 const update = async (id, productId, quantity) => {

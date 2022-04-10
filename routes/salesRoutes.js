@@ -15,6 +15,6 @@ routes.get('/', listAllSales);
 routes.get('/:id', listSalesById);
 
 routes.post('/', validations, createSalesController);
-routes.put('/:id', editSaleController);
+routes.put('/:id', validations, editSaleController);
 
 module.exports = routes;
