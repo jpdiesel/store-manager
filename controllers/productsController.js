@@ -1,14 +1,8 @@
-const {
-  listAllProducts,
-  listProductById,
-  createProduct,
-  attProduct,
-  delProduct,
-} = require('../services/productsService');
+const productsService = require('../services/productsService');
 
 const getAllProducts = async (_req, res) => {
   try {
-    const data = await listAllProducts();
+    const data = await productsService.listAllProducts();
     res.status(200).json(data);
   } catch (e) {
     console.log(e);
@@ -18,7 +12,7 @@ const getAllProducts = async (_req, res) => {
 const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await listProductById(id);
+    const data = await productsService.listProductById(id);
     if (!data) return res.status(404).json({ message: 'Product not found' });
     return res.status(200).json(data);
   } catch (e) {
@@ -29,7 +23,7 @@ const getProductById = async (req, res) => {
 const createProductController = async (req, res) => {
   try {
     const { name, quantity } = req.body;
-    const result = await createProduct(name, quantity);
+    const result = await productsService.createProduct(name, quantity);
     if (!result) return res.status(409).json({ message: 'Product already exists' });
     const jsonResult = {
       id: result.insertId,
@@ -46,7 +40,7 @@ const updateProductController = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, quantity } = req.body;
-    const result = await attProduct(name, quantity, id);
+    const result = await productsService.attProduct(name, quantity, id);
     if (!result) return res.status(404).json({ message: 'Product not found' });
     return res.status(200).json({ name, quantity, id });
   } catch (e) {
@@ -57,7 +51,7 @@ const updateProductController = async (req, res) => {
 const deleteProductController = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await delProduct(id);
+    const result = await productsService.delProduct(id);
     if (!result) return res.status(404).json({ message: 'Product not found' });
     return res.status(204).end();
   } catch (e) {
